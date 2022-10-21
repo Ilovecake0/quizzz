@@ -1,0 +1,388 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <br> <br> <br>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorant quiz</title>
+</head>
+
+<body>
+    <div id="intro">
+        <h1> This Quiz Will Test Out If You've Been Paying Attention </h1>
+        <h2 id="headerText"> Who Is Your Favourite Agent</h2> <br>
+      
+    </div>
+
+    <div id="greetingInput">
+        <input id="userName" maxlength="10"> <br>
+        <button onclick="greeting()">ENTER!</button>
+
+
+    </div>
+
+    <div id="searchInput">
+        <h3>Enter Quiz User Name </h3>
+        <input id="quizUserName" maxlength="10"> <br>
+        <button onclick="showUserQuizResult()">Search</button>  
+        <button onclick="clearQuizResults()">Clear Results</button> 
+    </div>
+
+    <div id="quiz">
+        <h3 id="question"> 1. What Agent Has The Ability To Heal?</h3>
+        <div id="answerA" onclick="afunction()"></div>
+        <div id="answerB" onclick="bfunction()"></div>
+        <div id="answerC" onclick="cfunction()"></div>
+        <div id="answerD" onclick="dfunction()"></div>
+        
+        <div id="qn1Button" onclick="Submit1()"><button> Submit Answer 1</button></div>
+        <div id="qn2Button" onclick="Submit2()"><button> Submit Answer 2</button></div>
+        <div id="qn3Button" onclick="Submit3()"><button> Submit Answer 3</button></div>
+        <div id="qn4Button" onclick="Submit4()"><button> Submit Answer 4</button></div>
+        <div id="qn5Button" onclick="Submit5()"><button> Submit Answer 5</button></div>
+    </div>
+
+    <div id="quizResult">
+        <h2 id="headerQuizText"></h2> <br>
+    </div>
+
+    <style>
+    #intro {
+        text-align: center;
+        color: rgb(211, 81, 81);
+        background-color: rgb(0, 0, 0);
+        font-family:
+            "Times New Roman", Times, serif;
+    }
+
+    body {
+        background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/411f35c3-8621-4eed-a703-2ad3e47d5c4a/deosqtx-e2ff185b-7b8e-43a5-87e6-19efe239148b.png/v1/fill/w_1280,h_720,q_80,strp/valorant_wallpaper_time_by_jrpencil_deosqtx-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvNDExZjM1YzMtODYyMS00ZWVkLWE3MDMtMmFkM2U0N2Q1YzRhXC9kZW9zcXR4LWUyZmYxODViLTdiOGUtNDNhNS04N2U2LTE5ZWZlMjM5MTQ4Yi5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.NfX7z195rzkSLLzfeveghumX79WzU0SPiPz3g7uQlds"), url("back.jpg");
+        background-color: #000000;
+    }
+
+    #greetingInput {
+        text-align: center;
+        color: rgb(211, 81, 81);
+    }
+
+    #searchInput {
+        text-align: center;
+        color: rgb(81, 133, 211);
+        background-color: rgb(0, 0, 0);
+    }
+
+    #quiz { 
+        text-align: center;
+        color: rgb(211, 81, 81);
+        background-color: rgb(0, 0, 0);
+    }
+  
+    #headerQuizText {
+        text-align: center;
+        color: rgb(211, 122, 81);
+        background-color: rgb(0, 0, 0);
+    }
+
+    </style>
+
+    <script>
+        let userName = document.querySelector("#userName");
+        let headerText = document.querySelector("#headerText");
+        let greetingInput = document.querySelector("#greetingInput");        
+        let quiz = document.querySelector("#quiz");
+        let headerQuizText = document.querySelector("#headerQuizText");
+        let searchInput = document.querySelector("#searchInput");
+
+        let qn1Button = document.querySelector("#qn1Button")
+        let qn2Button = document.querySelector("#qn2Button")
+        let qn3Button = document.querySelector("#qn3Button")
+        let qn4Button = document.querySelector("#qn4Button")
+        let qn5Button = document.querySelector("#qn5Button")    
+        
+        let answerA = document.querySelector("#answerA");
+        let answerB = document.querySelector("#answerB");
+        let answerC = document.querySelector("#answerC");
+        let answerD = document.querySelector("#answerD");
+
+
+        let question = document.querySelector("#question");
+
+        let iterationNumber = 0;
+        let qnChoice = "";
+        let score = 0;
+
+        let questionList = [
+            "qn1:What Agent Has The Ability To Heal?",
+            "qn2: Why Do We Need To Check Corners",
+            "qn3: What Does Ace Mean?",
+            "qn4: Why Is It Important To Learn About Other Agents?",
+            "qn5: Is Valorant The Best Game?"
+        ];
+
+        let aAnswerList = [
+            "Healer", "We Need To Check Them??", "ummmmmm....","Incase The Agent You Main Gets Taken By Someone Else So You know How To Use The Other Agents", "It's Mid "
+        ]
+     
+        let bAnswerList = [
+            "Reyna", "I Dont Need To, Im Pro", "When A Player Kills All 5 People From Enemy Team", "WHY WOULD I WANNA PLAY WITH ANY OTHER AGENT, ARE YOU DOUBTING MY SKILL LEVEL?", "NAH FORTNITE IS WAY BETTER LOL "
+        ]
+
+        let cAnswerList = [
+            "Sage", "Because An Enemy Could Be Lurking There", "When All Your Team Mates Kill Someone ", "Because Its Fun :p", " WELL DUH NONE CAN COMPETE TO VALORANT"
+        ]
+
+        let dAnswerList = [
+            "Sova", "Because You Can Hide ", "How Should I know, Do I look Like A Nerd?", "Well You see Its Totally Boring Playing With The Same Agent ", "Its Interesting, But Other Games Are Cool Too"
+        ]
+
+
+        quiz.style.display = "none";
+        qn1Button.style.display = "none";
+        qn2Button.style.display = "none";
+        qn3Button.style.display = "none";
+        qn4Button.style.display = "none";
+        qn5Button.style.display="none";
+
+    function greeting() {
+        headerText.innerHTML = ""
+        headerText.innerHTML = "Hola " + userName.value + ", This Quiz Will Test Out If You've Been Paying Attention.";
+        greetingInput.style.display = "none"
+        quiz.style.display = "block";
+        qn1Button.style.display = "block";
+        headerQuizText.style.display = "none";  
+        searchInput.style.display = "none"
+
+        question.innerHTML = questionList[iterationNumber];
+        
+        answerA.innerHTML = aAnswerList[iterationNumber]
+        answerB.innerHTML = bAnswerList[iterationNumber]
+        answerC.innerHTML = cAnswerList[iterationNumber]
+        answerD.innerHTML = dAnswerList[iterationNumber]
+
+    }
+
+    function afunction() {
+        answerA.style.color = "floralwhite"
+        answerB.style.color = "red"
+        answerC.style.color = "red"
+        answerD.style.color = "red"
+        qnChoice = "a";
+        headerQuizText.style.display = "none";  
+    }
+
+    function bfunction() {
+        answerA.style.color = "red"
+        answerB.style.color = "floralwhite"
+        answerC.style.color = "red"
+        answerD.style.color = "red"
+        qnChoice = "b";
+    }
+
+    function cfunction() {
+        answerA.style.color = "red"
+        answerB.style.color = "red"
+        answerC.style.color = "floralwhite"
+        answerD.style.color = "red"
+        qnChoice = "c";
+    }
+
+    function dfunction() {
+        answerA.style.color = "red"
+        answerB.style.color = "red"
+        answerC.style.color = "red"
+        answerD.style.color = "floralwhite"
+        qnChoice = "d";
+    }
+
+  
+   
+
+    function Submit1() {
+        console.log("submit1 clicked");
+        
+        if (qnChoice == "c") {
+            score += 1;
+            console.log("Correct choice selected and score incremented");
+        } else {
+            console.log("InCorrect choice selected. No score incremented"); 
+        }
+
+        
+        qn1Button.style.display = "none";  
+        qn2Button.style.display = "block";
+        iterationNumber += 1;
+
+        console.log("Iteration number ", iterationNumber);
+        question.innerHTML = questionList[iterationNumber];
+
+        answerA.style.color = "red"
+        answerB.style.color = "red"
+        answerC.style.color = "red"
+        answerD.style.color = "red"
+
+        answerA.innerHTML = aAnswerList[iterationNumber]
+        answerB.innerHTML = bAnswerList[iterationNumber]
+        answerC.innerHTML = cAnswerList[iterationNumber]
+        answerD.innerHTML = dAnswerList[iterationNumber]
+
+    }
+
+    function Submit2() {
+        console.log("submit2 clicked");
+        
+        if (qnChoice == "c") {
+            score += 1;
+            console.log("Correct choice selected and score incremented");
+        } else {
+            console.log("InCorrect choice selected. No score incremented"); 
+        }
+
+        iterationNumber += 1;
+        console.log("Iteration number ", iterationNumber);
+        question.innerHTML = questionList[iterationNumber];
+
+        qn2Button.style.display = "none";  
+        qn3Button.style.display = "block";
+
+        answerA.style.color = "red"
+        answerB.style.color = "red"
+        answerC.style.color = "red"
+        answerD.style.color = "red"
+
+        answerA.innerHTML = aAnswerList[iterationNumber]
+        answerB.innerHTML = bAnswerList[iterationNumber]
+        answerC.innerHTML = cAnswerList[iterationNumber]
+        answerD.innerHTML = dAnswerList[iterationNumber]      
+    }
+
+    function Submit3() {
+        console.log("submit3 clicked");
+        
+        if (qnChoice == "b") {
+            score += 1;
+            console.log("Correct choice selected and score incremented");
+        } else {
+            console.log("InCorrect choice selected. No score incremented"); 
+        }
+
+        iterationNumber += 1;
+        console.log("Iteration number ", iterationNumber);
+        question.innerHTML = questionList[iterationNumber];
+
+        qn3Button.style.display = "none";  
+        qn4Button.style.display = "block";
+
+        answerA.style.color = "red"
+        answerB.style.color = "red"
+        answerC.style.color = "red"
+        answerD.style.color = "red"
+      
+        answerA.innerHTML = aAnswerList[iterationNumber]
+        answerB.innerHTML = bAnswerList[iterationNumber]
+        answerC.innerHTML = cAnswerList[iterationNumber]
+        answerD.innerHTML = dAnswerList[iterationNumber]
+    }
+
+    function Submit4() {
+        console.log("submit4 clicked");
+        
+        if (qnChoice == "a") {
+            score += 1;
+            console.log("Correct choice selected and score incremented");
+        } else {
+            console.log("InCorrect choice selected. No score incremented"); 
+        }
+
+        iterationNumber += 1;
+        console.log("Iteration number ", iterationNumber);
+        question.innerHTML = questionList[iterationNumber];
+
+        qn4Button.style.display = "none";  
+        qn5Button.style.display = "block";
+
+        answerA.style.color = "red"
+        answerB.style.color = "red"
+        answerC.style.color = "red"
+        answerD.style.color = "red"
+
+        answerA.innerHTML = aAnswerList[iterationNumber]
+        answerB.innerHTML = bAnswerList[iterationNumber]
+        answerC.innerHTML = cAnswerList[iterationNumber]
+        answerD.innerHTML = dAnswerList[iterationNumber]  
+    }  
+
+    function Submit5() {
+        console.log("submit5 clicked");
+        
+        if (qnChoice == "c") {
+            score += 1;
+            console.log("Correct choice selected and score incremented");
+        } else {
+            console.log("InCorrect choice selected. No score incremented"); 
+        }
+
+        iterationNumber += 1;
+        console.log("Iteration number ", iterationNumber);
+
+        if (score == 0) {
+            headerText.innerHTML = "How Stupid Can You Be? You've Scored: " + score;  
+        } else if (score == 1) {
+            headerText.innerHTML = "Only A Tiny Bit Better You've Scored: " + score;  
+        } 
+
+         else if (score == 2) {
+            headerText.innerHTML = "I Think You're Just Guessing At This Point You've Scored : " + score;  
+        }
+        else if (score == 3) {
+            headerText.innerHTML = "Getting better! You've Scored : " + score;  
+        }
+        else if (score == 4) {
+            headerText.innerHTML = "So Close You've Scored : " + score;  
+        }
+        else if (score == 5) {
+            headerText.innerHTML = "WOWOWO YOU'RE READY TO KILL SOME ENEMIES FOR SURE You've Scored : " + score;  
+        }
+        else {
+            headerText.innerHTML = "You've scored: " + score;
+        }
+        
+
+        quiz.style.display = "none";
+        answerA.style.color = "red"
+        answerB.style.color = "red"
+        answerC.style.color = "red"
+        answerD.style.color = "red"
+
+        answerA.innerHTML = aAnswerList[iterationNumber]
+        answerB.innerHTML = bAnswerList[iterationNumber]
+        answerC.innerHTML = cAnswerList[iterationNumber]
+        answerD.innerHTML = dAnswerList[iterationNumber]    
+
+        // Store the quiz score in a local storage
+        localStorage.setItem(userName.value, score);
+        console.log("Stored Score: " + localStorage.getItem(userName.value))     
+     
+    }   
+
+    // show the User Quiz results on the screen
+    function showUserQuizResult() {
+        uname = document.getElementById('quizUserName').value;
+        quizResult = localStorage.getItem(uname);
+
+        if (quizResult == null) {
+            quizResult = "Not scored yet"
+        }
+        //console.log("User Quiz Result found" + quizResult)
+        headerQuizText.innerHTML = "User: " + uname + ", Your Score: " + quizResult;
+    }   
+
+    // Clear all data from the local storage
+    function clearQuizResults() {
+        localStorage.clear();
+    }
+
+    </script>
+</body>
+
+</html>
